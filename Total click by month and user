@@ -1,0 +1,14 @@
+SELECT 
+    customer_name,
+    EXTRACT(MONTH FROM day) AS month,
+    SUM(number_of_clicks) AS total_clicks
+FROM 
+    clicks
+WHERE 
+    day IS NOT NULL  -- Ignore rows with no day
+GROUP BY 
+    customer_name, 
+    EXTRACT(MONTH FROM day)
+ORDER BY 
+    month, 
+    total_clicks DESC;

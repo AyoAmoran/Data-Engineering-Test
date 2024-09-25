@@ -1,0 +1,8 @@
+CREATE TABLE CLICKS (
+  Customer_Name VARCHAR(70),
+  Day TIMESTAMP, -- or DATE if you only need the date without time
+  Number_of_Clicks INT
+);
+COPY CLICKS (Day, Customer_Name, Number_of_Clicks)
+FROM '/Applications/PostgreSQL 16/Website Statistics Data.csv'
+DELIMITER ',' CSV HEADER;

@@ -1,0 +1,23 @@
+WITH clicks_by_user AS (
+    SELECT 
+        customer_name,
+        EXTRACT(MONTH FROM day) AS month,
+        SUM(number_of_clicks) AS user_clicks
+    FROM 
+        clicks
+    WHERE 
+        day IS NOT NULL  -- Ignore rows with no day
+    GROUP BY 
+        customer_name, 
+        EXTRACT(MONTH FROM day)
+)
+SELECT 
+    customer_name,
+    month,
+    user_clicks,
+    ROUND ((user_clicks::DECIMAL / SUM(user_clicks) OVER (PARTITION BY month)) * 100, 2) || '%'AS click_share
+FROM 
+    clicks_by_user
+ORDER BY 
+    month, 
+    click_share DESC;
